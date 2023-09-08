@@ -1,6 +1,6 @@
 <?php
 
-test('calculate the ratios of its elements', function ($arr, $expected) {
+test('Plus Minus', function ($arr, $expected) {
     $n = count($arr);
     $decimals = 6;
 
@@ -25,7 +25,7 @@ test('calculate the ratios of its elements', function ($arr, $expected) {
 ]);
 
 
-test('find the minimum and maximum values that can be calculated by summing exactly four of the five integers', function ($arr, $expected) {
+test('Mini-Max Sum', function ($arr, $expected) {
     sort($arr);
 
     $min_sum = array_sum(array_slice($arr, 0, 4));
@@ -39,7 +39,7 @@ test('find the minimum and maximum values that can be calculated by summing exac
 ]);
 
 
-test('time conversion 24 12', function ($input, $expected) {
+test('Time Conversion', function ($input, $expected) {
     $result = date('H:i:s', strtotime($input));
 
     expect($result)->toEqual($expected);
@@ -47,4 +47,37 @@ test('time conversion 24 12', function ($input, $expected) {
     ['12:01:00PM', '12:01:00'],
     ['12:01:00AM', '00:01:00'],
     ['07:05:45PM', '19:05:45'],
+]);
+
+test('Breaking the Records', function ($scores, $expected) {
+    $min_score = null;
+    $max_score = null;
+
+    $count_min = 0;
+    $count_max = 0;
+
+    foreach ($scores as $score) {
+        if ($min_score === null && $max_score === null) {
+            $min_score = $score;
+            $max_score = $score;
+            continue;
+        }
+
+        if ($score < $min_score) {
+            $min_score = $score;
+            $count_min++;
+        }
+
+        if ($score > $max_score) {
+            $max_score = $score;
+            $count_max++;
+        }
+    }
+
+    $result = [$count_max, $count_min];
+
+    expect($result)->toEqual($expected);
+})->with([
+    [[10, 5, 20, 20, 4, 5, 2, 25, 1], [2, 4]],
+    [[0, 9, 3, 10, 2, 20], [3, 0]]
 ]);
