@@ -1,7 +1,6 @@
 <?php
 
 test('calculate the ratios of its elements', function ($arr, $expected) {
-
     $n = count($arr);
     $decimals = 6;
 
@@ -26,7 +25,7 @@ test('calculate the ratios of its elements', function ($arr, $expected) {
 ]);
 
 
-it('find the minimum and maximum values that can be calculated by summing exactly four of the five integers', function ($arr, $expected) {
+test('find the minimum and maximum values that can be calculated by summing exactly four of the five integers', function ($arr, $expected) {
     sort($arr);
 
     $min_sum = array_sum(array_slice($arr, 0, 4));
@@ -37,4 +36,15 @@ it('find the minimum and maximum values that can be calculated by summing exactl
     expect($result)->toEqual($expected);
 })->with([
     [[1, 3, 5, 7, 9], "16 24"],
+]);
+
+
+test('time conversion 24 12', function ($input, $expected) {
+    $result = date('H:i:s', strtotime($input));
+
+    expect($result)->toEqual($expected);
+})->with([
+    ['12:01:00PM', '12:01:00'],
+    ['12:01:00AM', '00:01:00'],
+    ['07:05:45PM', '19:05:45'],
 ]);
