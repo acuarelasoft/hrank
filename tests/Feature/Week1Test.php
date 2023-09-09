@@ -81,3 +81,56 @@ test('Breaking the Records', function ($scores, $expected) {
     [[10, 5, 20, 20, 4, 5, 2, 25, 1], [2, 4]],
     [[0, 9, 3, 10, 2, 20], [3, 0]]
 ]);
+
+test('Camel Case 4', function ($input, $expected) {
+    // S for split
+    // C for combine
+    // M for method
+    // C for class
+    // V for variable
+
+    // split string by lines
+
+
+    [$command, $type, $value] = explode(';', $input);
+
+    $result = '';
+
+    if ($command === 'S') {
+        $matches = null;
+        if (preg_match_all('/[A-Za-z][a-z]*/', $value, $matches)) {
+            $result = implode(' ', array_map('strtolower', $matches[0]));
+        }
+    }
+
+    if ($command === 'C') {
+        $words = explode(' ', $value);
+
+        if ($type === 'V' || $type === 'M') {
+            $first_word = strtolower($words[0]);
+            $all_words_but_first = array_map('ucfirst', array_splice($words, 1));
+            $result = implode('', array_merge([$first_word], $all_words_but_first));
+
+            if ($type === 'M') {
+                $result .= '()';
+            }
+        }
+
+        if ($type === 'C') {
+            $result = implode('', array_map('ucfirst', $words));
+        }
+    }
+
+    expect($result)->toEqual($expected);
+})->with([
+    ['S;M;plasticCup()', 'plastic cup'],
+    ['C;V;mobile phone', 'mobilePhone'],
+    ['C;C;coffee machine', 'CoffeeMachine'],
+    ['S;C;LargeSoftwareBook', 'large software book'],
+    ['C;M;white sheet of paper', 'whiteSheetOfPaper()'],
+    ['S;V;pictureFrame', 'picture frame'],
+    ['S;V;iPad', 'i pad'],
+    ['C;M;mouse pad', 'mousePad()'],
+    ['C;C;code swarm', 'CodeSwarm'],
+    ['S;C;OrangeHighlighter', 'orange highlighter']
+]);
