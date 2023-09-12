@@ -134,3 +134,26 @@ test('Camel Case 4', function ($input, $expected) {
     ['C;C;code swarm', 'CodeSwarm'],
     ['S;C;OrangeHighlighter', 'orange highlighter']
 ]);
+
+test('Divisible sum pairs', function ($n, $k, $arr, $expected) {
+    $array_length = $n;
+    $divisor = $k;
+    $values = $arr;
+    $pairs = [];
+
+    for ($i = 0; $i < $array_length; $i++) {
+        for ($j = $i + 1; $j < $array_length; $j++) {
+            if (($values[$i] + $values[$j]) % $divisor === 0) {
+                $pairs[] = [$i, $j];
+            }
+        }
+    }
+
+    $n_pairs = count($pairs);
+
+
+
+    expect($n_pairs)->toBe($expected);
+})->with([
+    [6, 3, [1, 3, 2, 6, 1, 2], 5]
+]);
