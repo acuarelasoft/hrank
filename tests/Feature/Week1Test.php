@@ -157,3 +157,16 @@ test('Divisible sum pairs', function ($n, $k, $arr, $expected) {
 })->with([
     [6, 3, [1, 3, 2, 6, 1, 2], 5]
 ]);
+
+
+test('Sparse arrays', function ($strings, $queries, $expected) {
+
+    $c_values = array_count_values($strings);
+
+    $results = array_map(fn ($q) => $c_values[$q] ?? 0, $queries);
+
+    expect($results === $expected)->toBeTrue();
+})->with([
+    [['aba', 'baba', 'aba', 'xzxb'], ['aba', 'xzxb', 'ab'], [2, 1, 0]],
+    [['def', 'de', 'fgh'], ['de', 'lmn', 'fgh'], [1, 0, 1]]
+]);
